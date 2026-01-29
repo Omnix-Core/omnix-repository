@@ -1,9 +1,20 @@
 <?php
 
-require_once __DIR__ . '/../app/models/ProductRepository.php';
+    // Versión estable: 
+    session_start();
 
-$productoRepo = new ProductRepository();
-$productos = $productoRepo->findAll();
+    require_once __DIR__ . '/../config/config.php';
+    require_once __DIR__ . '/../app/core/Router.php';
+
+    $router = new Router();
+    $router->run();
+    // -------------------------------------------------
+
+
+    require_once __DIR__ . '/../app/models/ProductRepository.php';
+
+    $productoRepo = new ProductRepository();
+    $productos = $productoRepo->findAll();
 ?>
 
 <!DOCTYPE html>
@@ -11,7 +22,7 @@ $productos = $productoRepo->findAll();
 
 <head>
     <meta charset="UTF-8">
-    <title>Tienda Tecnológica - DEV</title>
+    <title>Omnix Core</title>
 
     <!-- Pico.css -->
     <!-- <link
