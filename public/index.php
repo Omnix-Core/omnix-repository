@@ -92,7 +92,7 @@
             <?php else: ?>
                 <section class="products">
                     <?php foreach ($productos as $producto): ?>
-                        <article class="bg-gray-200 border-1">
+                        <article class="bg-gray-200 border">
                             <h3><?= htmlspecialchars($producto->getNombre()) ?></h3>
 
                             <p><?= htmlspecialchars($producto->getDescripcion()) ?></p>
