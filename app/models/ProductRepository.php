@@ -1,9 +1,9 @@
 <?php
 
 require_once __DIR__ . '/../libs/Model.php';
-require_once __DIR__ . '/Producto.php';
+require_once __DIR__ . '/Product.php';
 
-class ProductoRepository extends Model
+class ProductRepository extends Model
 {
     /**
      * Obtiene todos los productos con su categoría
