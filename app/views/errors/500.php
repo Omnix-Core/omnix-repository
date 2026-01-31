@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -8,4 +8,4 @@
     <h1>Error 500</h1>
     <p>Se ha producido un error interno. Inténtelo más tarde.</p>
 </body>
-</html>
+</html> -->

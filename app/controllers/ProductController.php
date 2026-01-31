@@ -11,10 +11,14 @@ class ProductController
         $this->productRepo = new ProductRepository();
     }
 
-    public function index()
+     public function index()
     {
-        $products = $this->productRepo->findAll();
+        $productRepository = new ProductRepository();
+        $productos = $productRepository->findAll();
+
+        require __DIR__ . '/../views/layouts/header.php';
         require __DIR__ . '/../views/products/index.php';
+        require __DIR__ . '/../views/layouts/footer.php';
     }
 
     public function show($id)
