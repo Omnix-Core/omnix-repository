@@ -46,7 +46,6 @@
     </div>
 </div>
 
-<!-- Modal crear/editar categoría -->
 <dialog id="category_modal" class="modal">
     <div class="modal-box">
         <h3 class="font-bold text-lg mb-4" id="modal_title">Nueva Categoría</h3>
