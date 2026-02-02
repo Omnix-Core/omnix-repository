@@ -4,7 +4,6 @@
     <div class="max-w-7xl mx-auto">
         <h1 class="text-3xl font-bold mb-8">Panel de Administración</h1>
 
-        <!-- Estadísticas principales -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
             <div class="stats shadow">
                 <div class="stat">
@@ -59,7 +58,6 @@
             </div>
         </div>
 
-        <!-- Accesos rápidos -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
             <a href="/admin/products" class="card bg-base-100 shadow-xl hover:shadow-2xl transition-shadow">
                 <div class="card-body items-center text-center">
@@ -92,7 +90,6 @@
             </a>
         </div>
 
-        <!-- Pedidos recientes -->
         <div class="card bg-base-100 shadow-xl">
             <div class="card-body">
                 <h2 class="card-title mb-4">Pedidos Recientes</h2>
