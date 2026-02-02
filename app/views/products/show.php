@@ -3,7 +3,6 @@
 <div class="container mx-auto px-4 py-8">
     <div class="max-w-6xl mx-auto">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <!-- Imagen del producto -->
             <div class="bg-base-100 rounded-lg shadow-lg p-6">
                 <img 
                     src="/assets/images/products/<?= htmlspecialchars($product->image) ?>" 
@@ -13,7 +12,6 @@
                 />
             </div>
 
-            <!-- Información del producto -->
             <div class="space-y-6">
                 <div>
                     <h1 class="text-4xl font-bold mb-2"><?= htmlspecialchars($product->name) ?></h1>
@@ -32,7 +30,6 @@
 
                 <div class="divider"></div>
 
-                <!-- Selector de cantidad y botón añadir al carrito -->
                 <div class="space-y-4">
                     <div class="form-control">
                         <label class="label">
@@ -71,7 +68,6 @@
                     </a>
                 </div>
 
-                <!-- Características del producto (opcional) -->
                 <div class="bg-base-200 rounded-lg p-4">
                     <h3 class="font-bold mb-2">Características:</h3>
                     <ul class="space-y-1 text-sm">
@@ -102,9 +98,7 @@ function addToCart(productId) {
     .then(response => response.json())
     .then(data => {
         if (data.success) {
-            // Mostrar alerta de éxito
             alert('Producto añadido al carrito');
-            // Actualizar contador del carrito si existe
             const cartBadge = document.getElementById('cart-count');
             if (cartBadge) {
                 cartBadge.textContent = data.cartCount;
