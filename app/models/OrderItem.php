@@ -8,7 +8,6 @@ class OrderItem
     public $quantity;
     public $price;
     
-    // Propiedades adicionales del producto
     public $product_name;
     public $product_image;
     public $product_description;
@@ -22,7 +21,6 @@ class OrderItem
             $this->quantity = $data['quantity'] ?? 1;
             $this->price = $data['price'] ?? 0;
             
-            // Datos del producto si vienen del join
             $this->product_name = $data['product_name'] ?? $data['name'] ?? null;
             $this->product_image = $data['product_image'] ?? $data['image'] ?? null;
             $this->product_description = $data['product_description'] ?? $data['description'] ?? null;
