@@ -7,7 +7,7 @@
             <a href="/contact" class="link link-hover">Contacto</a>
         </div> 
         <div>
-            <p>© 2024 Omnix Core - Proyecto TFG DAW</p>
+            <p>© 2026 Omnix Core - Proyecto TFG DAW</p>
         </div>
     </footer>
 
