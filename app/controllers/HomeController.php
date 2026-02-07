@@ -1,22 +1,25 @@
 <?php
 
-require_once __DIR__ . '/../models/ProductRepository.php';
+require_once __DIR__ . '/../libs/Database.php';
 
-class HomeController
-{
-    private $productRepo;
+class HomeController{
+    public function index(){
+        try {
+            $db = Database::getInstance();
+            $pdo = $db->getConnection();
 
-    public function __construct()
-    {
-        $this->productRepo = new ProductRepository();
-    }
+            $datos = [
+                'titulo' => 'Bienvenido a Omnix',
+                'texto'  => 'Los mejores precios en tecnología.'
+            ];
 
-    public function index()
-    {
-        $productos = $this->productRepo->findAll();
-        
-        extract(['productos' => $productos]);
-        
-        require_once __DIR__ . '/../views/home/index.php';
+            require_once __DIR__ . '/../views/home/index.php';
+
+        } catch (Throwable $e) {
+
+            error_log('Error en HomeController: ' . $e->getMessage());
+
+            require_once __DIR__ . '/../views/errors/500.php';
+        }
     }
 }
