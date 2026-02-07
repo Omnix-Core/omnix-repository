@@ -9,19 +9,13 @@ class User
     public $role;
     public $created_at;
 
-    public function getId()
+    public function __construct($data = [])
     {
-        return $this->id;
-    }
-
-    public function getUsername()
-    {
-        return $this->username;
-    }
-
-    public function getEmail()
-    {
-        return $this->email;
+        foreach ($data as $key => $value) {
+            if (property_exists($this, $key)) {
+                $this->$key = $value;
+            }
+        }
     }
 
     public function isAdmin()
