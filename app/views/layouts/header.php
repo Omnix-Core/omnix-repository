@@ -19,7 +19,7 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16" />
                 </svg>
             </label>
-            <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
+            <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-1 p-2 shadow bg-base-100 rounded-box w-52">
                 <li><a href="/">Inicio</a></li>
                 <li><a href="/products">Productos</a></li>
                 <?php if (Auth::check() && Auth::isAdmin()): ?>
@@ -57,7 +57,7 @@
                         <span><?= strtoupper(substr(Auth::user()->username, 0, 1)) ?></span>
                     </div>
                 </label>
-                <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
+                <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-1 p-2 shadow bg-base-100 rounded-box w-52">
                     <li class="menu-title"><span><?= htmlspecialchars(Auth::user()->username) ?></span></li>
                     <li><a href="/orders">Mis Pedidos</a></li>
                     <li><a href="/cart">Mi Carrito</a></li>
