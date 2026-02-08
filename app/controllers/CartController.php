@@ -18,7 +18,8 @@ class CartController
     public function index()
     {
         if (!Auth::check()) {
-            header('Location: /login');
+            $_SESSION['error'] = 'Debes iniciar sesión para ver el carrito';
+            header('Location: /auth/login');
             exit;
         }
 
@@ -27,10 +28,13 @@ class CartController
         $cartTotal = $this->cartRepo->getCartTotal($userId);
         $cartCount = $this->cartRepo->getCartCount($userId);
 
+        $title = 'Mi Carrito - Omnix Core';
+        
         extract([
             'cartItems' => $cartItems,
             'cartTotal' => $cartTotal,
-            'cartCount' => $cartCount
+            'cartCount' => $cartCount,
+            'title' => $title
         ]);
 
         require_once __DIR__ . '/../views/cart/index.php';
@@ -46,7 +50,7 @@ class CartController
         }
 
         $productId = $_POST['product_id'] ?? null;
-        $quantity = $_POST['quantity'] ?? 1;
+        $quantity = intval($_POST['quantity'] ?? 1);
 
         if (!$productId || $quantity < 1) {
             echo json_encode(['success' => false, 'message' => 'Datos inválidos']);
@@ -58,9 +62,9 @@ class CartController
 
         if ($success) {
             $count = $this->cartRepo->getCartCount($userId);
-            echo json_encode(['success' => true, 'count' => $count]);
+            echo json_encode(['success' => true, 'count' => $count, 'message' => 'Producto añadido']);
         } else {
-            echo json_encode(['success' => false, 'message' => 'Error al añadir al carrito']);
+            echo json_encode(['success' => false, 'message' => 'Error al añadir']);
         }
         exit;
     }
@@ -74,8 +78,8 @@ class CartController
             exit;
         }
 
-        $cartId = $_POST['cart_id'] ?? null;
-        $quantity = $_POST['quantity'] ?? 0;
+        $cartId = intval($_POST['cart_id'] ?? 0);
+        $quantity = intval($_POST['quantity'] ?? 0);
 
         if (!$cartId || $quantity < 0) {
             echo json_encode(['success' => false, 'message' => 'Datos inválidos']);
@@ -109,7 +113,7 @@ class CartController
             exit;
         }
 
-        $cartId = $_POST['cart_id'] ?? null;
+        $cartId = intval($_POST['cart_id'] ?? 0);
 
         if (!$cartId) {
             echo json_encode(['success' => false, 'message' => 'ID no proporcionado']);
@@ -148,7 +152,7 @@ class CartController
 
         echo json_encode([
             'success' => $success,
-            'message' => $success ? 'Carrito vaciado' : 'Error al vaciar carrito'
+            'message' => $success ? 'Carrito vaciado' : 'Error al vaciar'
         ]);
         exit;
     }
