@@ -6,7 +6,7 @@
         <div class="max-w-md">
             <h1 class="text-5xl font-bold">Bienvenido a Omnix Core</h1>
             <p class="py-6">Tu tienda online de productos tecnológicos</p>
-            <a href="/products" class="btn btn-primary">Ver Productos</a>
+            <a href="<?= Helpers::url('product/index') ?>" class="btn btn-primary">Ver Productos</a>
         </div>
     </div>
 </div>
@@ -25,10 +25,10 @@
                 <?php if ($count >= 8) break; ?>
                 <div class="card bg-base-100 shadow-xl hover:shadow-2xl transition-shadow">
                     <figure class="px-4 pt-4">
-                        <img src="/assets/images/products/<?= htmlspecialchars($producto->getImagen()) ?>" 
+                        <img src="<?= Helpers::url('assets/images/products/' . htmlspecialchars($producto->getImagen())) ?>" 
                              alt="<?= htmlspecialchars($producto->getNombre()) ?>"
                              class="rounded-xl h-48 w-full object-cover"
-                             onerror="this.src='/assets/images/products/default.jpg'">
+                             onerror="this.src='<?= Helpers::url('assets/images/products/default.svg') ?>'">
                     </figure>
                     <div class="card-body">
                         <span class="badge badge-primary badge-sm"><?= htmlspecialchars($producto->getCategoriaNombre()) ?></span>
@@ -36,7 +36,7 @@
                         <p class="text-sm text-gray-600 line-clamp-2"><?= htmlspecialchars($producto->getDescripcion()) ?></p>
                         <div class="text-2xl font-bold text-primary">€<?= number_format($producto->getPrecio(), 2) ?></div>
                         <div class="card-actions justify-end">
-                            <a href="/products/<?= $producto->getId() ?>" class="btn btn-primary btn-sm">Ver Detalles</a>
+                            <a href="<?= Helpers::url('product/show/' . $producto->getId()) ?>" class="btn btn-primary btn-sm">Ver Detalles</a>
                         </div>
                     </div>
                 </div>
@@ -45,7 +45,7 @@
         </div>
         
         <div class="text-center mt-8">
-            <a href="/products" class="btn btn-outline">Ver Todos los Productos</a>
+            <a href="<?= Helpers::url('product/index') ?>" class="btn btn-outline">Ver Todos los Productos</a>
         </div>
     <?php endif; ?>
 </div>

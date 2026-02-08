@@ -9,7 +9,7 @@
         </div>
         
         <div class="card shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
-            <form method="POST" action="/login" class="card-body">
+            <form method="POST" action="<?= Helpers::url('auth/login') ?>" class="card-body">
                 <div class="form-control">
                     <label class="label">
                         <span class="label-text">Email</span>
@@ -29,7 +29,7 @@
                 </div>
                 
                 <div class="text-center mt-4">
-                    <p class="text-sm">¿No tienes cuenta? <a href="/register" class="link link-primary">Regístrate</a></p>
+                    <p class="text-sm">¿No tienes cuenta? <a href="<?= Helpers::url('auth/register') ?>" class="link link-primary">Regístrate</a></p>
                 </div>
             </form>
         </div>
