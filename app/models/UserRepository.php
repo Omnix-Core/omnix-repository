@@ -1,44 +1,45 @@
 <?php
 
-require_once __DIR__ . '/../libs/Model.php';
+require_once __DIR__ . '/../libs/Database.php';
 require_once __DIR__ . '/User.php';
 
-class UserRepository extends Model
+class UserRepository
 {
-    public function findByEmail(string $email)
-    {
-        $stmt = $this->db->prepare(
-            "SELECT * FROM users WHERE email = :email"
-        );
-        $stmt->execute([':email' => $email]);
+    private $db;
 
-        return $stmt->fetchObject('User');
+    public function __construct()
+    {
+        $this->db = Database::getInstance()->getPDO();
     }
 
-    public function create(string $username, string $email, string $password)
+    public function findByEmail($email)
     {
-        $hash = password_hash($password, PASSWORD_DEFAULT);
+        $stmt = $this->db->prepare("SELECT * FROM users WHERE email = :email");
+        $stmt->execute([':email' => $email]);
+        
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $row ? new User($row) : null;
+    }
 
+    public function findById($id)
+    {
+        $stmt = $this->db->prepare("SELECT * FROM users WHERE id = :id");
+        $stmt->execute([':id' => $id]);
+        
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $row ? new User($row) : null;
+    }
+
+    public function create($username, $email, $password)
+    {
         $stmt = $this->db->prepare(
-            "INSERT INTO users (username, email, password, role, created_at)
-             VALUES (:username, :email, :password, 'user', NOW())"
+            "INSERT INTO users (username, email, password) VALUES (:username, :email, :password)"
         );
-
+        
         return $stmt->execute([
             ':username' => $username,
-            ':email'    => $email,
-            ':password' => $hash
+            ':email' => $email,
+            ':password' => $password
         ]);
-    }
-
-    public function verifyLogin(string $email, string $password)
-    {
-        $user = $this->findByEmail($email);
-
-        if ($user && password_verify($password, $user->password)) {
-            return $user;
-        }
-
-        return false;
     }
 }
