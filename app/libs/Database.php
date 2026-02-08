@@ -1,6 +1,6 @@
 <?php
 
-    require_once '../app/libs/Config.php';
+    require_once __DIR__ . '/Config.php';
 
     class Database {
         

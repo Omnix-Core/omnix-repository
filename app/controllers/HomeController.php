@@ -1,12 +1,17 @@
 <?php
 
 require_once __DIR__ . '/../libs/Database.php';
+require_once __DIR__ . '/../models/ProductRepository.php';
 
 class HomeController{
     public function index(){
         try {
             $db = Database::getInstance();
-            $pdo = $db->getConnection();
+            $pdo = $db->getPDO();
+
+            $productRepo = new ProductRepository();
+            
+            $productos = $productRepo->findAll();
 
             $datos = [
                 'titulo' => 'Bienvenido a Omnix',
