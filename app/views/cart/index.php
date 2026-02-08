@@ -11,7 +11,7 @@
                 </svg>
                 <h2 class="text-2xl font-bold mb-2">Tu carrito está vacío</h2>
                 <p class="text-gray-600 mb-6">Añade algunos productos para empezar a comprar</p>
-                <a href="/products" class="btn btn-primary">Ver Productos</a>
+                <a href="<?= Helpers::url('product/index') ?>" class="btn btn-primary">Ver Productos</a>
             </div>
         </div>
     <?php else: ?>
@@ -27,14 +27,14 @@
                         <div class="divide-y">
                             <?php foreach ($cartItems as $item): ?>
                                 <div class="py-4 flex gap-4" id="cart-item-<?= $item->id ?>">
-                                    <img src="/assets/images/products/<?= htmlspecialchars($item->product_image) ?>" 
+                                    <img src="<?= Helpers::url('assets/images/products/' . htmlspecialchars($item->product_image)) ?>" 
                                          alt="<?= htmlspecialchars($item->product_name) ?>"
                                          class="w-24 h-24 object-cover rounded"
-                                         onerror="this.src='/assets/images/products/default.jpg'">
+                                         onerror="this.src='<?= Helpers::url('assets/images/products/default.svg') ?>'">
                                     
                                     <div class="flex-1">
                                         <h3 class="font-bold text-lg">
-                                            <a href="/products/<?= $item->product_id ?>" class="hover:text-primary">
+                                            <a href="<?= Helpers::url('product/show/' . $item->product_id) ?>" class="hover:text-primary">
                                                 <?= htmlspecialchars($item->product_name) ?>
                                             </a>
                                         </h3>
@@ -90,7 +90,7 @@
                             <span class="text-primary" id="cart-total">€<?= number_format($cartTotal, 2) ?></span>
                         </div>
                         
-                        <a href="/order/checkout" class="btn btn-primary w-full mt-4">Proceder al Pago</a>
+                        <a href="<?= Helpers::url('order/checkout') ?>" class="btn btn-primary w-full mt-4">Proceder al Pago</a>
                         
                         <div class="alert alert-info mt-4">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="stroke-current shrink-0 w-6 h-6">
@@ -106,13 +106,15 @@
 </div>
 
 <script>
+const BASE_URL = '<?= Helpers::url('') ?>';
+
 function updateQuantity(cartId, newQuantity) {
     if (newQuantity < 1) {
         removeFromCart(cartId);
         return;
     }
     
-    fetch('/cart/update', {
+    fetch(BASE_URL + 'cart/update', {
         method: 'POST',
         headers: {'Content-Type': 'application/x-www-form-urlencoded'},
         body: `cart_id=${cartId}&quantity=${newQuantity}`
@@ -137,7 +139,7 @@ function updateQuantity(cartId, newQuantity) {
 function removeFromCart(cartId) {
     if (!confirm('¿Eliminar este producto del carrito?')) return;
     
-    fetch('/cart/remove', {
+    fetch(BASE_URL + 'cart/remove', {
         method: 'POST',
         headers: {'Content-Type': 'application/x-www-form-urlencoded'},
         body: `cart_id=${cartId}`
@@ -168,7 +170,7 @@ function removeFromCart(cartId) {
 function clearCart() {
     if (!confirm('¿Vaciar todo el carrito?')) return;
     
-    fetch('/cart/clear', {
+    fetch(BASE_URL + 'cart/clear', {
         method: 'POST',
         headers: {'Content-Type': 'application/x-www-form-urlencoded'}
     })
