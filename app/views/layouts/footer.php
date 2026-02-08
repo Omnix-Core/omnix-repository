@@ -1,3 +1,4 @@
+<?php require_once __DIR__ . '/../../libs/Auth.php'; ?>
 </main>
 
 <footer class="footer footer-center p-10 bg-base-300 text-base-content mt-16">
@@ -11,20 +12,5 @@
     </div>
 </footer>
 
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    <?php if (Auth::check()): ?>
-        fetch('/cart/count')
-            .then(response => response.json())
-            .then(data => {
-                const badge = document.getElementById('cart-count');
-                if (badge && data.count !== undefined) {
-                    badge.textContent = data.count;
-                }
-            })
-            .catch(error => console.error('Error:', error));
-    <?php endif; ?>
-});
-</script>
 </body>
 </html>

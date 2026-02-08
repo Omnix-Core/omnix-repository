@@ -5,7 +5,7 @@
         private $params = [];
 
         private function __construct() {
-            $this->params = require '../config/params.php';
+            $this->params = require __DIR__ . '/../../config/params.php';
         }
 
         public static function getInstance() {
