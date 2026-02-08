@@ -2,6 +2,7 @@
 
 require_once __DIR__ . '/../models/UserRepository.php';
 require_once __DIR__ . '/../libs/Auth.php';
+require_once __DIR__ . '/../libs/Helpers.php';
 
 class AuthController
 {
@@ -15,8 +16,7 @@ class AuthController
     public function login()
     {
         if (Auth::check()) {
-            header('Location: /');
-            exit;
+            Helpers::redirect('home/index');
         }
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -31,8 +31,7 @@ class AuthController
                 if ($user && password_verify($password, $user->password)) {
                     $_SESSION['user_id'] = $user->id;
                     $_SESSION['success'] = '¡Bienvenido ' . $user->username . '!';
-                    header('Location: /');
-                    exit;
+                    Helpers::redirect('home/index');
                 } else {
                     $_SESSION['error'] = 'Credenciales incorrectas';
                 }
@@ -45,8 +44,7 @@ class AuthController
     public function register()
     {
         if (Auth::check()) {
-            header('Location: /');
-            exit;
+            Helpers::redirect('home/index');
         }
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -71,8 +69,7 @@ class AuthController
 
                     if ($success) {
                         $_SESSION['success'] = 'Registro exitoso. Ya puedes iniciar sesión';
-                        header('Location: /login');
-                        exit;
+                        Helpers::redirect('auth/login');
                     } else {
                         $_SESSION['error'] = 'Error al registrar usuario';
                     }
@@ -86,7 +83,6 @@ class AuthController
     public function logout()
     {
         session_destroy();
-        header('Location: /');
-        exit;
+        Helpers::redirect('home/index');
     }
 }
