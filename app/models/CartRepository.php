@@ -9,12 +9,9 @@ class CartRepository
 
     public function __construct()
     {
-        $this->db = Database::getInstance();
+        $this->db = Database::getInstance()->getPDO();
     }
 
-    /**
-     * Obtiene todos los items del carrito de un usuario
-     */
     public function getCartByUserId($userId)
     {
         $sql = "SELECT c.*, 
@@ -38,9 +35,6 @@ class CartRepository
         return $items;
     }
 
-    /**
-     * Añade un producto al carrito
-     */
     public function addToCart($userId, $productId, $quantity = 1)
     {
         $existing = $this->getCartItem($userId, $productId);
@@ -60,9 +54,6 @@ class CartRepository
         }
     }
 
-    /**
-     * Obtiene un item específico del carrito
-     */
     public function getCartItem($userId, $productId)
     {
         $sql = "SELECT * FROM cart 
@@ -79,9 +70,6 @@ class CartRepository
         return $row ? new Cart($row) : null;
     }
 
-    /**
-     * Actualiza la cantidad de un item del carrito
-     */
     public function updateQuantity($cartId, $quantity)
     {
         if ($quantity <= 0) {
@@ -97,9 +85,6 @@ class CartRepository
         ]);
     }
 
-    /**
-     * Elimina un item del carrito
-     */
     public function removeItem($cartId)
     {
         $sql = "DELETE FROM cart WHERE id = :id";
@@ -108,23 +93,6 @@ class CartRepository
         return $stmt->execute([':id' => $cartId]);
     }
 
-    /**
-     * Elimina un producto específico del carrito de un usuario
-     */
-    public function removeByUserAndProduct($userId, $productId)
-    {
-        $sql = "DELETE FROM cart WHERE user_id = :user_id AND product_id = :product_id";
-        
-        $stmt = $this->db->prepare($sql);
-        return $stmt->execute([
-            ':user_id' => $userId,
-            ':product_id' => $productId
-        ]);
-    }
-
-    /**
-     * Vacía todo el carrito de un usuario
-     */
     public function clearCart($userId)
     {
         $sql = "DELETE FROM cart WHERE user_id = :user_id";
@@ -133,9 +101,6 @@ class CartRepository
         return $stmt->execute([':user_id' => $userId]);
     }
 
-    /**
-     * Cuenta los items en el carrito de un usuario
-     */
     public function getCartCount($userId)
     {
         $sql = "SELECT SUM(quantity) as total FROM cart WHERE user_id = :user_id";
@@ -148,9 +113,6 @@ class CartRepository
         return $result['total'] ?? 0;
     }
 
-    /**
-     * Calcula el total del carrito de un usuario
-     */
     public function getCartTotal($userId)
     {
         $sql = "SELECT SUM(c.quantity * p.price) as total
