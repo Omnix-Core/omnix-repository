@@ -24,20 +24,20 @@ class OrderController
 
         $userId = Auth::user()->id;
         $cartItems = $this->cartRepo->getCartByUserId($userId);
-
+        
         if (empty($cartItems)) {
             $_SESSION['error'] = 'El carrito está vacío';
             header('Location: /cart');
             exit;
         }
-
+        
         $cartTotal = $this->cartRepo->getCartTotal($userId);
 
         extract([
             'cartItems' => $cartItems,
             'cartTotal' => $cartTotal
         ]);
-
+        
         require_once __DIR__ . '/../views/orders/checkout.php';
     }
 
@@ -55,7 +55,7 @@ class OrderController
 
         $userId = Auth::user()->id;
         $cartItems = $this->cartRepo->getCartByUserId($userId);
-
+        
         if (empty($cartItems)) {
             $_SESSION['error'] = 'El carrito está vacío';
             header('Location: /cart');
@@ -80,7 +80,7 @@ class OrderController
 
         if ($orderId) {
             $this->cartRepo->clearCart($userId);
-
+            
             $_SESSION['success'] = 'Pedido realizado correctamente';
             header('Location: /orders/' . $orderId);
             exit;

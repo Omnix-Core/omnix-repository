@@ -2,11 +2,11 @@
 
     return [
         'db' => [
-            'host'    => 'localhost',       
-            'user'    => 'root',            
-            'pass'    => '',                
-            'dbname'  => 'tienda_tecnologica', 
-            'charset' => 'utf8mb4'          
+            'host'    => 'db',          
+            'user'    => 'omnix_user',  
+            'pass'    => 'omnix_pass',  
+            'dbname'  => 'omnix',       
+            'charset' => 'utf8mb4'
         ]
     ];
 ?>

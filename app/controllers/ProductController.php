@@ -11,19 +11,27 @@ class ProductController
         $this->productRepo = new ProductRepository();
     }
 
-     public function index()
+    public function index()
     {
-        $productRepository = new ProductRepository();
-        $productos = $productRepository->findAll();
-
-        require __DIR__ . '/../views/layouts/header.php';
-        require __DIR__ . '/../views/products/index.php';
-        require __DIR__ . '/../views/layouts/footer.php';
+        $productos = $this->productRepo->findAll();
+        
+        extract(['productos' => $productos]);
+        
+        require_once __DIR__ . '/../views/products/index.php';
     }
 
     public function show($id)
     {
-        $product = $this->productRepo->findById($id);
-        require __DIR__ . '/../views/products/show.php';
+        $producto = $this->productRepo->findById((int)$id);
+        
+        if (!$producto) {
+            $_SESSION['error'] = 'Producto no encontrado';
+            header('Location: /products');
+            exit;
+        }
+        
+        extract(['producto' => $producto]);
+        
+        require_once __DIR__ . '/../views/products/show.php';
     }
 }
