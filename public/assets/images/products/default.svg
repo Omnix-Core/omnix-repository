@@ -1,0 +1,11 @@
+<svg width="400" height="400" xmlns="http://www.w3.org/2000/svg">
+  <rect width="400" height="400" fill="#f3f4f6"/>
+  <g transform="translate(200, 200)">
+    <rect x="-80" y="-100" width="160" height="160" rx="8" fill="#e5e7eb"/>
+    <circle cx="0" cy="-50" r="30" fill="#d1d5db"/>
+    <path d="M -40,-10 L -40,30 L 40,30 L 40,-10 L 20,-30 L -20,-30 Z" fill="#d1d5db"/>
+    <text x="0" y="120" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" fill="#9ca3af">
+      Sin Imagen
+    </text>
+  </g>
+</svg>
