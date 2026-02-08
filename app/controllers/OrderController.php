@@ -3,6 +3,7 @@
 require_once __DIR__ . '/../models/OrderRepository.php';
 require_once __DIR__ . '/../models/CartRepository.php';
 require_once __DIR__ . '/../libs/Auth.php';
+require_once __DIR__ . '/../libs/Helpers.php';
 
 class OrderController
 {
@@ -18,8 +19,7 @@ class OrderController
     public function checkout()
     {
         if (!Auth::check()) {
-            header('Location: /login');
-            exit;
+            Helpers::redirect('auth/login');
         }
 
         $userId = Auth::user()->id;
@@ -27,8 +27,7 @@ class OrderController
         
         if (empty($cartItems)) {
             $_SESSION['error'] = 'El carrito está vacío';
-            header('Location: /cart');
-            exit;
+            Helpers::redirect('cart/index');
         }
         
         $cartTotal = $this->cartRepo->getCartTotal($userId);
@@ -44,13 +43,11 @@ class OrderController
     public function process()
     {
         if (!Auth::check()) {
-            header('Location: /login');
-            exit;
+            Helpers::redirect('auth/login');
         }
 
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            header('Location: /cart');
-            exit;
+            Helpers::redirect('cart/index');
         }
 
         $userId = Auth::user()->id;
@@ -58,8 +55,7 @@ class OrderController
         
         if (empty($cartItems)) {
             $_SESSION['error'] = 'El carrito está vacío';
-            header('Location: /cart');
-            exit;
+            Helpers::redirect('cart/index');
         }
 
         $shippingAddress = trim($_POST['shipping_address'] ?? '');
@@ -67,8 +63,7 @@ class OrderController
 
         if (empty($shippingAddress) || empty($paymentMethod)) {
             $_SESSION['error'] = 'Por favor, completa todos los campos';
-            header('Location: /checkout');
-            exit;
+            Helpers::redirect('order/checkout');
         }
 
         $orderId = $this->orderRepo->crearPedidoDesdeCarrito(
@@ -82,20 +77,17 @@ class OrderController
             $this->cartRepo->clearCart($userId);
             
             $_SESSION['success'] = 'Pedido realizado correctamente';
-            header('Location: /orders/' . $orderId);
-            exit;
+            Helpers::redirect('order/show/' . $orderId);
         } else {
             $_SESSION['error'] = 'Error al procesar el pedido';
-            header('Location: /checkout');
-            exit;
+            Helpers::redirect('order/checkout');
         }
     }
 
     public function index()
     {
         if (!Auth::check()) {
-            header('Location: /login');
-            exit;
+            Helpers::redirect('auth/login');
         }
 
         $userId = Auth::user()->id;
@@ -108,22 +100,19 @@ class OrderController
     public function show($id)
     {
         if (!Auth::check()) {
-            header('Location: /login');
-            exit;
+            Helpers::redirect('auth/login');
         }
 
         $order = $this->orderRepo->obtenerPedidoPorId($id);
 
         if (!$order) {
             $_SESSION['error'] = 'Pedido no encontrado';
-            header('Location: /orders');
-            exit;
+            Helpers::redirect('order/index');
         }
 
         if ($order->user_id != Auth::user()->id && !Auth::isAdmin()) {
             $_SESSION['error'] = 'No tienes permiso para ver este pedido';
-            header('Location: /orders');
-            exit;
+            Helpers::redirect('order/index');
         }
 
         extract(['order' => $order]);
