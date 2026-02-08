@@ -5,8 +5,8 @@
         <!-- Breadcrumb -->
         <div class="text-sm breadcrumbs mb-6">
             <ul>
-                <li><a href="/">Inicio</a></li>
-                <li><a href="/products">Productos</a></li>
+                <li><a href="<?= Helpers::url('home/index') ?>">Inicio</a></li>
+                <li><a href="<?= Helpers::url('product/index') ?>">Productos</a></li>
                 <li><?= htmlspecialchars($producto->getNombre()) ?></li>
             </ul>
         </div>
@@ -16,10 +16,10 @@
             <div>
                 <div class="card bg-base-100 shadow-xl">
                     <figure class="px-8 pt-8">
-                        <img src="/assets/images/products/<?= htmlspecialchars($producto->getImagen()) ?>" 
+                        <img src="<?= Helpers::url('assets/images/products/' . htmlspecialchars($producto->getImagen())) ?>" 
                              alt="<?= htmlspecialchars($producto->getNombre()) ?>"
                              class="rounded-xl w-full"
-                             onerror="this.src='/assets/images/products/default.jpg'">
+                             onerror="this.src='<?= Helpers::url('assets/images/products/default.svg') ?>'">
                     </figure>
                 </div>
             </div>
@@ -78,7 +78,7 @@
                                     </div>
                                 </div>
                             <?php else: ?>
-                                <a href="/auth/login" class="btn btn-primary w-full mb-4">
+                                <a href="<?= Helpers::url('auth/login') ?>" class="btn btn-primary w-full mb-4">
                                     Iniciar Sesión para Comprar
                                 </a>
                             <?php endif; ?>
@@ -87,13 +87,13 @@
                         <?php endif; ?>
                         
                         <div class="flex gap-2">
-                            <a href="/products" class="btn btn-outline flex-1">
+                            <a href="<?= Helpers::url('product/index') ?>" class="btn btn-outline flex-1">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
                                 </svg>
                                 Volver a Productos
                             </a>
-                            <a href="/" class="btn btn-ghost flex-1">Ir al Inicio</a>
+                            <a href="<?= Helpers::url('home/index') ?>" class="btn btn-ghost flex-1">Ir al Inicio</a>
                         </div>
                     </div>
                 </div>
@@ -136,10 +136,12 @@
 </div>
 
 <script>
+const BASE_URL = '<?= Helpers::url('') ?>';
+
 function addToCart(productId) {
     const quantity = document.getElementById('quantity-' + productId).value;
     
-    fetch('/cart/add', {
+    fetch(BASE_URL + 'cart/add', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
