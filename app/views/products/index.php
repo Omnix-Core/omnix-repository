@@ -23,16 +23,16 @@
                     </figure>
                     <div class="card-body">
                         <span class="badge badge-primary badge-sm"><?= htmlspecialchars($producto->getCategoriaNombre()) ?></span>
-                        <h2 class="card-title"><?= htmlspecialchars($producto->getNombre()) ?></h2>
+                        <h2 class="card-title text-base"><?= htmlspecialchars($producto->getNombre()) ?></h2>
                         <p class="text-sm text-gray-600 line-clamp-2"><?= htmlspecialchars($producto->getDescripcion()) ?></p>
                         <div class="flex items-center justify-between mt-2">
-                            <span class="text-2xl font-bold text-primary">€<?= number_format($producto->getPrecio(), 2) ?></span>
-                            <span class="badge <?= $producto->hayStock() ? 'badge-success' : 'badge-error' ?>">
+                            <span class="text-xl font-bold text-primary">€<?= number_format($producto->getPrecio(), 2) ?></span>
+                            <span class="badge <?= $producto->hayStock() ? 'badge-success' : 'badge-error' ?> badge-sm">
                                 <?= $producto->getStockTexto() ?>
                             </span>
                         </div>
                         <div class="card-actions justify-end mt-2">
-                            <a href="/products/<?= $producto->getId() ?>" class="btn btn-primary btn-sm w-full">Ver Detalles</a>
+                            <a href="/product/show/<?= $producto->getId() ?>" class="btn btn-primary btn-sm w-full">Ver Detalles</a>
                         </div>
                     </div>
                 </div>
