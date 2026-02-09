@@ -87,6 +87,79 @@ class ProductRepository extends Model
     }
 
     /**
+     * Búsqueda con múltiples filtros
+     */
+    public function findWithFilters(array $filters)
+    {
+        $sql = "
+            SELECT 
+                p.*, 
+                c.name AS category_name
+            FROM products p
+            INNER JOIN categories c ON c.id = p.category_id
+            WHERE 1=1
+        ";
+
+        $params = [];
+
+        // Filtro de búsqueda por texto
+        if (isset($filters['search']) && $filters['search'] !== '') {
+            $sql .= " AND (p.name LIKE ? OR p.description LIKE ?)";
+            $params[] = '%' . $filters['search'] . '%';
+            $params[] = '%' . $filters['search'] . '%';
+        }
+
+        // Filtro por categoría
+        if (isset($filters['category_id']) && $filters['category_id'] > 0) {
+            $sql .= " AND p.category_id = ?";
+            $params[] = $filters['category_id'];
+        }
+
+        // Filtro por precio mínimo
+        if (isset($filters['min_price']) && $filters['min_price'] !== null && $filters['min_price'] > 0) {
+            $sql .= " AND p.price >= ?";
+            $params[] = $filters['min_price'];
+        }
+
+        // Filtro por precio máximo
+        if (isset($filters['max_price']) && $filters['max_price'] !== null && $filters['max_price'] > 0) {
+            $sql .= " AND p.price <= ?";
+            $params[] = $filters['max_price'];
+        }
+
+        // Filtro solo productos en stock
+        if (isset($filters['in_stock']) && $filters['in_stock'] === true) {
+            $sql .= " AND p.stock > 0";
+        }
+
+        // Ordenamiento
+        $sortBy = isset($filters['sort_by']) ? $filters['sort_by'] : 'newest';
+        switch ($sortBy) {
+            case 'price_asc':
+                $sql .= " ORDER BY p.price ASC";
+                break;
+            case 'price_desc':
+                $sql .= " ORDER BY p.price DESC";
+                break;
+            case 'name_asc':
+                $sql .= " ORDER BY p.name ASC";
+                break;
+            case 'name_desc':
+                $sql .= " ORDER BY p.name DESC";
+                break;
+            case 'newest':
+            default:
+                $sql .= " ORDER BY p.created_at DESC";
+                break;
+        }
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute($params);
+
+        return $stmt->fetchAll(PDO::FETCH_CLASS, 'Producto');
+    }
+
+    /**
      * Inserta producto (admin)
      */
     public function create(Producto $p)
