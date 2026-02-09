@@ -33,7 +33,7 @@
         </a>
     </div>
     
-    <div class="navbar-center hidden lg:flex">
+    <div class="navbar-center hidden lg:flex gap-4">
         <ul class="menu menu-horizontal px-1">
             <li><a href="<?= Helpers::url('home/index') ?>">Inicio</a></li>
             <li><a href="<?= Helpers::url('product/index') ?>">Productos</a></li>
@@ -41,6 +41,22 @@
                 <li><a href="<?= Helpers::url('admin/index') ?>" class="text-primary">Panel Admin</a></li>
             <?php endif; ?>
         </ul>
+        
+        <!-- Barra de búsqueda en el header (solo desktop) -->
+        <form method="GET" action="<?= Helpers::url('product/index') ?>" class="form-control">
+            <div class="input-group input-group-sm">
+                <input type="text" 
+                       name="search" 
+                       placeholder="Buscar productos..." 
+                       class="input input-bordered input-sm w-48 xl:w-64"
+                       value="<?= isset($_GET['search']) ? htmlspecialchars($_GET['search']) : '' ?>">
+                <button type="submit" class="btn btn-sm btn-primary">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                </button>
+            </div>
+        </form>
     </div>
     
     <div class="navbar-end gap-2">
@@ -85,6 +101,24 @@
             <a href="<?= Helpers::url('auth/register') ?>" class="btn btn-outline btn-sm">Registrarse</a>
         <?php endif; ?>
     </div>
+</div>
+
+<!-- Barra de búsqueda móvil (debajo del navbar) -->
+<div class="lg:hidden bg-base-200 p-3">
+    <form method="GET" action="<?= Helpers::url('product/index') ?>" class="form-control">
+        <div class="input-group input-group-sm w-full">
+            <input type="text" 
+                   name="search" 
+                   placeholder="Buscar productos..." 
+                   class="input input-bordered input-sm flex-1"
+                   value="<?= isset($_GET['search']) ? htmlspecialchars($_GET['search']) : '' ?>">
+            <button type="submit" class="btn btn-sm btn-primary">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+            </button>
+        </div>
+    </form>
 </div>
 
 <?php if (isset($_SESSION['success'])): ?>
