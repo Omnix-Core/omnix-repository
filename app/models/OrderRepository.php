@@ -16,56 +16,66 @@ class OrderRepository
     /**
      * Crea un nuevo pedido a partir del carrito del usuario
      */
-    public function crearPedidoDesdeCarrito($userId, $itemsCarrito, $direccionEnvio, $metodoPago)
-    {
-        try {
-            $this->db->beginTransaction();
-            
-            // Calcular total
-            $total = 0;
-            foreach ($itemsCarrito as $item) {
-                $total += ($item->quantity * $item->product_price);
-            }
-            
-            // Insertar pedido
-            $sql = "INSERT INTO orders (user_id, total, shipping_address, payment_method) 
-                    VALUES (:user_id, :total, :shipping_address, :payment_method)";
-            
-            $stmt = $this->db->prepare($sql);
-            $stmt->execute([
-                ':user_id' => $userId,
-                ':total' => $total,
-                ':shipping_address' => $direccionEnvio,
-                ':payment_method' => $metodoPago
+public function crearPedidoDesdeCarrito($userId, $itemsCarrito, $direccionEnvio, $metodoPago)
+{
+    try {
+        $this->db->beginTransaction();
+        
+        // Calcular total
+        $total = 0;
+        foreach ($itemsCarrito as $item) {
+            $total += ($item->quantity * $item->product_price);
+        }
+        
+        // Insertar pedido
+        $sql = "INSERT INTO orders (user_id, total, shipping_address, payment_method) 
+                VALUES (:user_id, :total, :shipping_address, :payment_method)";
+        
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([
+            ':user_id' => $userId,
+            ':total' => $total,
+            ':shipping_address' => $direccionEnvio,
+            ':payment_method' => $metodoPago
+        ]);
+        
+        $pedidoId = $this->db->lastInsertId();
+        
+        // Insertar items del pedido y restar stock
+        $sqlItem = "INSERT INTO order_items (order_id, product_id, quantity, price) 
+                    VALUES (:order_id, :product_id, :quantity, :price)";
+        
+        $sqlStock = "UPDATE products SET stock = stock - :quantity WHERE id = :product_id";
+        
+        $stmtItem = $this->db->prepare($sqlItem);
+        $stmtStock = $this->db->prepare($sqlStock);
+        
+        foreach ($itemsCarrito as $item) {
+            // Insertar item del pedido
+            $stmtItem->execute([
+                ':order_id' => $pedidoId,
+                ':product_id' => $item->product_id,
+                ':quantity' => $item->quantity,
+                ':price' => $item->product_price
             ]);
             
-            $pedidoId = $this->db->lastInsertId();
-            
-            // Insertar items del pedido
-            $sqlItem = "INSERT INTO order_items (order_id, product_id, quantity, price) 
-                        VALUES (:order_id, :product_id, :quantity, :price)";
-            
-            $stmtItem = $this->db->prepare($sqlItem);
-            
-            foreach ($itemsCarrito as $item) {
-                $stmtItem->execute([
-                    ':order_id' => $pedidoId,
-                    ':product_id' => $item->product_id,
-                    ':quantity' => $item->quantity,
-                    ':price' => $item->product_price
-                ]);
-            }
-            
-            $this->db->commit();
-            
-            return $pedidoId;
-            
-        } catch (Exception $e) {
-            $this->db->rollBack();
-            error_log("Error creando pedido: " . $e->getMessage());
-            return false;
+            // Restar stock
+            $stmtStock->execute([
+                ':quantity' => $item->quantity,
+                ':product_id' => $item->product_id
+            ]);
         }
+        
+        $this->db->commit();
+        
+        return $pedidoId;
+        
+    } catch (Exception $e) {
+        $this->db->rollBack();
+        error_log("Error creando pedido: " . $e->getMessage());
+        return false;
     }
+}
 
     /**
      * Obtiene todos los pedidos de un usuario
