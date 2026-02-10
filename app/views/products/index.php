@@ -1,19 +1,39 @@
-<?php $title = 'Productos - Omnix Core'; ?>
+<?php $title = 'Inicio - Omnix Core'; ?>
 <?php require_once __DIR__ . '/../layouts/header.php'; ?>
 
-<div class="container mx-auto px-4 py-8">
-    <h1 class="text-3xl font-bold mb-8">Catálogo de Productos</h1>
+<style>
+.btn-detalle {
+    background-color: #0C13E8;
+    color: white;
+    border: none;
+}
+.btn-detalle:hover {
+    background-color: #0A10C0;
+}
+</style>
 
+<div class="hero min-h-96 bg-base-200">
+    <div class="hero-content text-center">
+        <div class="max-w-md">
+            <h1 class="text-5xl font-bold">Bienvenido a Omnix Core</h1>
+            <p class="py-6">Tu tienda online de productos tecnológicos</p>
+            <a href="/product/index" class="btn btn-primary">Ver Productos</a>
+        </div>
+    </div>
+</div>
+
+<div class="container mx-auto px-4 py-12">
+    <h2 class="text-3xl font-bold text-center mb-8">Productos Destacados</h2>
+    
     <?php if (empty($productos)): ?>
-        <div class="card bg-base-100 shadow-xl">
-            <div class="card-body text-center py-12">
-                <p class="text-gray-500">No hay productos disponibles</p>
-                <a href="/" class="btn btn-primary mt-4">Volver al Inicio</a>
-            </div>
+        <div class="text-center py-12">
+            <p class="text-gray-500">No hay productos disponibles</p>
         </div>
     <?php else: ?>
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <?php $count = 0; ?>
             <?php foreach ($productos as $producto): ?>
+                <?php if ($count >= 8) break; ?>
                 <div class="card bg-base-100 shadow-xl hover:shadow-2xl transition-shadow">
                     <figure class="px-4 pt-4">
                         <img src="/assets/images/products/<?= htmlspecialchars($producto->getImagen()) ?>" 
@@ -23,16 +43,15 @@
                     </figure>
                     <div class="card-body">
                         <span class="badge badge-primary badge-sm"><?= htmlspecialchars($producto->getCategoriaNombre()) ?></span>
-                        <h2 class="card-title text-base"><?= htmlspecialchars($producto->getNombre()) ?></h2>
+                        <h3 class="card-title text-lg"><?= htmlspecialchars($producto->getNombre()) ?></h3>
                         <p class="text-sm text-gray-600 line-clamp-2"><?= htmlspecialchars($producto->getDescripcion()) ?></p>
-                        <div class="flex items-center justify-between mt-2">
-                            <span class="text-xl font-bold text-primary">€<?= number_format($producto->getPrecio(), 2) ?></span>
-                            <span class="badge <?= $producto->hayStock() ? 'badge-success' : 'badge-error' ?> badge-sm">
-                                <?= $producto->getStockTexto() ?>
-                            </span>
-                        </div>
+                        <div class="text-2xl font-bold text-primary">€<?= number_format($producto->getPrecio(), 2) ?></div>
                         
-                        <div class="card-actions flex-col gap-2 mt-2">
+                        <div class="badge <?= $producto->hayStock() ? 'badge-success' : 'badge-error' ?> badge-sm mb-2">
+                            <?= $producto->getStockTexto() ?>
+                        </div>
+
+                        <div class="card-actions flex-col gap-2">
                             <?php if ($producto->hayStock() && Auth::check()): ?>
                                 <button onclick="quickAddToCart(<?= $producto->getId() ?>)" class="btn btn-primary btn-sm w-full">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -43,11 +62,16 @@
                             <?php elseif (!Auth::check()): ?>
                                 <a href="/auth/login" class="btn btn-primary btn-sm w-full">Iniciar Sesión</a>
                             <?php endif; ?>
-                            <a href="/product/show/<?= $producto->getId() ?>" class="btn btn-secondary btn-sm w-full">Ver Detalles</a>
+                            <a href="/product/show/<?= $producto->getId() ?>" class="btn btn-detalle btn-sm w-full">Ver Detalles</a>
                         </div>
                     </div>
                 </div>
+                <?php $count++; ?>
             <?php endforeach; ?>
+        </div>
+        
+        <div class="text-center mt-8">
+            <a href="/product/index" class="btn btn-outline">Ver Todos los Productos</a>
         </div>
     <?php endif; ?>
 </div>
@@ -65,7 +89,6 @@ function quickAddToCart(productId) {
             const badge = document.getElementById('cart-count');
             if (badge) badge.textContent = data.count;
             
-            // Notificación
             const toast = document.createElement('div');
             toast.className = 'toast toast-top toast-end';
             toast.innerHTML = `<div class="alert alert-success"><span>Producto añadido al carrito</span></div>`;
