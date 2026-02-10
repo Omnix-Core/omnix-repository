@@ -99,39 +99,6 @@
                 </div>
             </div>
         </div>
-
-        <!-- Características adicionales -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
-            <div class="card bg-base-100 shadow-xl">
-                <div class="card-body items-center text-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-primary mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" />
-                    </svg>
-                    <h3 class="card-title text-lg">Envío Gratis</h3>
-                    <p class="text-sm">En todos los pedidos</p>
-                </div>
-            </div>
-
-            <div class="card bg-base-100 shadow-xl">
-                <div class="card-body items-center text-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-primary mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                    </svg>
-                    <h3 class="card-title text-lg">Garantía</h3>
-                    <p class="text-sm">2 años de garantía oficial</p>
-                </div>
-            </div>
-
-            <div class="card bg-base-100 shadow-xl">
-                <div class="card-body items-center text-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-primary mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
-                    </svg>
-                    <h3 class="card-title text-lg">Pago Seguro</h3>
-                    <p class="text-sm">Transacciones 100% seguras</p>
-                </div>
-            </div>
-        </div>
     </div>
 </div>
 

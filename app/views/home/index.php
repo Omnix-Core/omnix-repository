@@ -1,7 +1,7 @@
 <?php $title = 'Inicio - Omnix Core'; ?>
 <?php require_once __DIR__ . '/../layouts/header.php'; ?>
 
-<div class="hero min-h-96 bg-base-200">
+<div class="hero min-h-96 bg-base-200 bg-[url('/assets/images/other/hero.png')] bg-cover bg-center">
     <div class="hero-content text-center">
         <div class="max-w-md">
             <h1 class="text-5xl font-bold">Bienvenido a Omnix Core</h1>
