@@ -1,43 +1,118 @@
-<?php $title = 'Checkout - Omnix Core'; ?>
+<?php $title = 'Finalizar Compra - Omnix Core'; ?>
 <?php require_once __DIR__ . '/../layouts/header.php'; ?>
 
-<div class="hero min-h-screen bg-base-200">
-    <div class="hero-content text-center">
-        <div class="max-w-md">
-            <!-- Icono de construcción -->
-            <h1 class="text-5xl font-bold mb-4">Página en Construcción</h1>
-            
-            <p class="text-lg mb-8">
-                La funcionalidad de pago y checkout está actualmente en desarrollo.
-                <br>
-                <span class="text-gray-600">Pronto estará disponible para procesar tus pedidos.</span>
-            </p>
-            
-            
-            <div class="flex flex-col gap-4">
-                <a href="<?= Helpers::url('home/index') ?>" class="btn btn-primary btn-lg">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-                    </svg>
-                    Volver al Inicio
-                </a>
-                
-                <a href="<?= Helpers::url('product/index') ?>" class="btn btn-outline btn-lg">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
-                    </svg>
-                    Seguir Comprando
-                </a>
+<div class="container mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold mb-8">Finalizar Compra</h1>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- Formulario de envío -->
+        <div class="lg:col-span-2">
+            <div class="card bg-base-100 shadow-xl">
+                <div class="card-body">
+                    <h2 class="card-title">Datos de Envío</h2>
+                    <div class="divider"></div>
+                    
+                    <form method="POST" action="/order/process" id="checkout-form">
+                        <div class="form-control mb-4">
+                            <label class="label">
+                                <span class="label-text font-bold">Dirección de Envío</span>
+                            </label>
+                            <textarea name="shipping_address" 
+                                      class="textarea textarea-bordered h-24" 
+                                      placeholder="Calle, número, piso&#10;Código postal, ciudad&#10;Provincia, país"
+                                      required></textarea>
+                        </div>
+
+                        <div class="form-control mb-4">
+                            <label class="label">
+                                <span class="label-text font-bold">Método de Pago</span>
+                            </label>
+                            <select name="payment_method" class="select select-bordered" required>
+                                <option value="">Selecciona un método</option>
+                                <option value="tarjeta">Tarjeta de Crédito/Débito</option>
+                                <option value="paypal">PayPal</option>
+                                <option value="transferencia">Transferencia Bancaria</option>
+                                <option value="contrareembolso">Contrareembolso</option>
+                            </select>
+                        </div>
+
+                        <div class="alert alert-info">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="stroke-current shrink-0 w-6 h-6">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            <span>Tu pedido será procesado inmediatamente tras confirmar la compra</span>
+                        </div>
+                    </form>
+                </div>
             </div>
-            
-            <div class="alert alert-info mt-8">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="stroke-current shrink-0 w-6 h-6">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                </svg>
-                <span class="text-left">
-                    <strong>Nota:</strong> Tu carrito se mantendrá guardado. 
-                    Puedes volver más tarde cuando esta funcionalidad esté disponible.
-                </span>
+
+            <!-- Resumen de productos -->
+            <div class="card bg-base-100 shadow-xl mt-6">
+                <div class="card-body">
+                    <h2 class="card-title">Productos del Pedido (<?= count($cartItems) ?>)</h2>
+                    <div class="divider"></div>
+                    
+                    <div class="space-y-4">
+                        <?php foreach ($cartItems as $item): ?>
+                            <div class="flex gap-4">
+                                <img src="/assets/images/products/<?= htmlspecialchars($item->product_image) ?>" 
+                                     alt="<?= htmlspecialchars($item->product_name) ?>"
+                                     class="w-16 h-16 object-cover rounded"
+                                     onerror="this.src='/assets/images/products/default.jpg'">
+                                <div class="flex-1">
+                                    <h3 class="font-bold"><?= htmlspecialchars($item->product_name) ?></h3>
+                                    <p class="text-sm text-gray-600">Cantidad: <?= $item->quantity ?></p>
+                                </div>
+                                <div class="text-right">
+                                    <p class="font-bold">€<?= number_format($item->quantity * $item->product_price, 2) ?></p>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Resumen del pedido -->
+        <div>
+            <div class="card bg-base-100 shadow-xl sticky top-4">
+                <div class="card-body">
+                    <h2 class="card-title">Resumen del Pedido</h2>
+                    <div class="divider"></div>
+                    
+                    <div class="space-y-2">
+                        <div class="flex justify-between">
+                            <span>Subtotal</span>
+                            <span>€<?= number_format($cartTotal, 2) ?></span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>Envío</span>
+                            <span class="text-success">GRATIS</span>
+                        </div>
+                    </div>
+                    
+                    <div class="divider"></div>
+                    
+                    <div class="flex justify-between text-2xl font-bold mb-4">
+                        <span>Total</span>
+                        <span class="text-primary">€<?= number_format($cartTotal, 2) ?></span>
+                    </div>
+
+                    <button type="submit" form="checkout-form" class="btn btn-primary w-full">
+                        Confirmar Pedido
+                    </button>
+
+                    <a href="/cart" class="btn btn-outline w-full mt-2">
+                        Volver al Carrito
+                    </a>
+
+                    <div class="alert alert-warning mt-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                        </svg>
+                        <span class="text-sm">Al confirmar, aceptas nuestros términos y condiciones</span>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
