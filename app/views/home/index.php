@@ -51,7 +51,7 @@
                             <?php elseif (!Auth::check()): ?>
                                 <a href="/auth/login" class="btn btn-primary btn-sm w-full">Iniciar Sesión</a>
                             <?php endif; ?>
-                            <a href="/product/show/<?= $producto->getId() ?>" class="btn btn-secondary btn-sm w-full">Ver Detalles</a>
+                            <a href="/product/show/<?= $producto->getId() ?>" class="btn btn-detalle btn-sm w-full">Ver Detalles</a>
                         </div>
                     </div>
                 </div>
@@ -64,6 +64,17 @@
         </div>
     <?php endif; ?>
 </div>
+
+<style>
+.btn-detalle {
+    background-color: #0C13E8;
+    color: white;
+    border: none;
+}
+.btn-detalle:hover {
+    background-color: #0A10C0;
+}
+</style>
 
 <script>
 function quickAddToCart(productId) {
