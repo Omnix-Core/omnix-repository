@@ -12,34 +12,7 @@
             <p class="text-2xl text-gray-600">Vuelve pronto 😊</p>
         </div>
 
-        <!-- Detalles del pedido -->
-        <div class="card bg-base-100 shadow-xl">
-            <div class="card-body">
-                <h2 class="text-2xl font-bold mb-4">Pedido #<?= $order->id ?></h2>
-                
-                <div class="divider"></div>
 
-                <div class="text-left space-y-4">
-                    <div>
-                        <p class="font-bold">Estado:</p>
-                        <span class="badge badge-success badge-lg"><?= $order->getStatusLabel() ?></span>
-                    </div>
-
-                    <div>
-                        <p class="font-bold">Fecha:</p>
-                        <p><?= date('d/m/Y H:i', strtotime($order->created_at)) ?></p>
-                    </div>
-
-                    <div>
-                        <p class="font-bold">Dirección de envío:</p>
-                        <p><?= nl2br(htmlspecialchars($order->shipping_address)) ?></p>
-                    </div>
-
-                    <div>
-                        <p class="font-bold">Método de pago:</p>
-                        <p class="capitalize"><?= htmlspecialchars($order->payment_method) ?></p>
-                    </div>
-                </div>
 
                 <div class="divider"></div>
 
@@ -60,7 +33,6 @@
                 </div>
 
                 <div class="card-actions justify-center mt-6 gap-4">
-                    <a href="/order/index" class="btn btn-outline">Ver Mis Pedidos</a>
                     <a href="/product/index" class="btn btn-primary">Seguir Comprando</a>
                 </div>
             </div>
