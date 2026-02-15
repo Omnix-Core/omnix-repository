@@ -1,4 +1,4 @@
-<?php $title = 'Inicio - Omnix Core'; ?>
+<?php $title = 'Productos - Omnix Core'; ?>
 <?php require_once __DIR__ . '/../layouts/header.php'; ?>
 
 <style>
@@ -12,18 +12,8 @@
 }
 </style>
 
-<div class="hero min-h-96 bg-base-200 bg-[url('/assets/images/other/hero.png')] bg-cover bg-center">
-    <div class="hero-content text-center">
-        <div class="max-w-md">
-            <h1 class="text-5xl font-bold">Bienvenido a Omnix Core</h1>
-            <p class="py-6">Tu tienda online de productos tecnológicos</p>
-            <a href="/product/index" class="btn btn-primary">Ver Productos</a>
-        </div>
-    </div>
-</div>
-
 <div class="container mx-auto px-4 py-12">
-    <h2 class="text-3xl font-bold text-center mb-8">Productos Destacados</h2>
+    <h2 class="text-3xl font-bold text-center mb-8">Todos los Productos</h2>
     
     <?php if (empty($productos)): ?>
         <div class="text-center py-12">
@@ -31,15 +21,13 @@
         </div>
     <?php else: ?>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            <?php $count = 0; ?>
             <?php foreach ($productos as $producto): ?>
-                <?php if ($count >= 8) break; ?>
                 <div class="card bg-base-100 shadow-xl hover:shadow-2xl transition-shadow">
                     <figure class="px-4 pt-4">
-                        <img src="/assets/images/products/<?= htmlspecialchars($producto->getImagen()) ?>" 
+                        <img src="<?= Helpers::url('assets/images/products/' . htmlspecialchars($producto->getImagen())) ?>" 
                              alt="<?= htmlspecialchars($producto->getNombre()) ?>"
                              class="rounded-xl h-48 w-full object-cover"
-                             onerror="this.src='/assets/images/products/default.jpg'">
+                             onerror="this.src='<?= Helpers::url('assets/images/products/default.jpg') ?>'">
                     </figure>
                     <div class="card-body">
                         <span class="badge badge-primary badge-sm"><?= htmlspecialchars($producto->getCategoriaNombre()) ?></span>
@@ -60,25 +48,22 @@
                                     Añadir al Carrito
                                 </button>
                             <?php elseif (!Auth::check()): ?>
-                                <a href="/auth/login" class="btn btn-primary btn-sm w-full">Iniciar Sesión</a>
+                                <a href="<?= Helpers::url('auth/login') ?>" class="btn btn-primary btn-sm w-full">Iniciar Sesión</a>
                             <?php endif; ?>
-                            <a href="/product/show/<?= $producto->getId() ?>" class="btn btn-detalle btn-sm w-full">Ver Detalles</a>
+                            <a href="<?= Helpers::url('product/show/' . $producto->getId()) ?>" class="btn btn-detalle btn-sm w-full">Ver Detalles</a>
                         </div>
                     </div>
                 </div>
-                <?php $count++; ?>
             <?php endforeach; ?>
-        </div>
-        
-        <div class="text-center mt-8">
-            <a href="/product/index" class="btn btn-outline">Ver Todos los Productos</a>
         </div>
     <?php endif; ?>
 </div>
 
 <script>
+const BASE_URL = '<?= Helpers::url('') ?>';
+
 function quickAddToCart(productId) {
-    fetch('/cart/add', {
+    fetch(BASE_URL + 'cart/add', {
         method: 'POST',
         headers: {'Content-Type': 'application/x-www-form-urlencoded'},
         body: `product_id=${productId}&quantity=1`
