@@ -32,7 +32,7 @@
                 </div>
 
                 <div class="card-actions justify-center mt-6 gap-4">
-                    <a href="/product/index" class="btn btn-primary">Seguir Comprando</a>
+                    <a href="<?= Helpers::url('product/index') ?>" class="btn btn-primary">Seguir Comprando</a>
                 </div>
             </div>
         </div>
