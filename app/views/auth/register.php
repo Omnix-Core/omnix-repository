@@ -14,14 +14,14 @@
                     <label class="label">
                         <span class="label-text">Nombre de usuario</span>
                     </label>
-                    <input type="text" name="username" placeholder="tu_usuario" class="input input-bordered" required>
+                    <input type="text" name="username" placeholder="Introduce tu usuario" class="input input-bordered" required>
                 </div>
                 
                 <div class="form-control">
                     <label class="label">
                         <span class="label-text">Email</span>
                     </label>
-                    <input type="email" name="email" placeholder="tu@email.com" class="input input-bordered" required>
+                    <input type="email" name="email" placeholder="Introduce tu direccion de e-mail" class="input input-bordered" required>
                 </div>
                 
                 <div class="form-control">
@@ -39,7 +39,7 @@
                 </div>
                 
                 <div class="form-control mt-6">
-                    <button type="submit" class="btn btn-primary">Registrarse</button>
+                    <button type="submit" class="btn btn-primary px-4">Registrarse</button>
                 </div>
                 
                 <div class="text-center mt-4">

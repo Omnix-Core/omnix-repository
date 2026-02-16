@@ -14,7 +14,7 @@
                     <label class="label">
                         <span class="label-text">Email</span>
                     </label>
-                    <input type="email" name="email" placeholder="tu@email.com" class="input input-bordered" required>
+                    <input type="email" name="email" placeholder="Introduce tu direccion de e-mail" class="input input-bordered" required>
                 </div>
                 
                 <div class="form-control">
@@ -25,7 +25,7 @@
                 </div>
                 
                 <div class="form-control mt-6">
-                    <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
+                    <button type="submit" class="btn btn-primary px-4">Iniciar Sesión</button>
                 </div>
                 
                 <div class="text-center mt-4">
